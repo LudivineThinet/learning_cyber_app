@@ -2,21 +2,31 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, Pressable, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import { signup } from '../API/userAPI'; // Import de la fonction signup
 
 export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!email || !username || !password) {
       Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
       return;
     }
 
-    // TODO : Appel API Express
-    Alert.alert('Succès', 'Compte créé avec succès !');
-    navigation.navigate('Login');
+    setLoading(true); //Appel fonction userAPI
+    try {
+      const userData = { email, username, password };
+      const result = await signup(userData); 
+      Alert.alert('Succès', 'Compte créé avec succès !');
+      navigation.navigate('Login');
+    } catch (error) {
+      Alert.alert('Erreur', error.message || 'Impossible de créer le compte');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
