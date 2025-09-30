@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function LessonsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lessons</Text>
+      <Text style={styles.title}>Leçons</Text>
     </View>
   );
 }

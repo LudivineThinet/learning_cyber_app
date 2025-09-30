@@ -1,68 +1,74 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, Pressable , Image, ScrollView} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient'; // pour le fond dégradé
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, Pressable, Image, ScrollView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient'; 
+import { login } from '../API/authAPI';
 
 export default function LoginScreen({ navigation }) {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!identifier || !password) {
       Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
       return;
     }
 
-    // TODO : Appel API Express
-    Alert.alert('Succès', 'Connexion réussie !');
+    try {
+      const data = await login({ email: identifier, password });
+      Alert.alert('Succès', `Connexion réussie !\nBienvenue ${data.user.username}`);
+      navigation.navigate('HomeTabs');
+    } catch (err) {
+      setError(err.message);
+      Alert.alert('Erreur', err.message || 'Impossible de se connecter');
+    }
   };
 
   return (
     <LinearGradient colors={['#0a0f1f', '#0f2b4c']} style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.container}>
+        <View style={styles.container}>
+          <Image 
+            source={require('../assets/logo.png')} 
+            style={styles.logo} 
+            resizeMode="contain"
+          />
 
-       
-      <Image 
-        source={require('../assets/logo.png')} 
-        style={styles.logo} 
-        resizeMode="contain"
-      />
+          <Text style={styles.title}>Connexion</Text>
+          {error ? <Text style={{color:'red', textAlign:'center', marginBottom:10}}>{error}</Text> : null}
 
-        <Text style={styles.title}>Connexion</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="rgba(230,241,255,0.6)"
+            value={identifier}
+            onChangeText={setIdentifier}
+            autoCapitalize="none"
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Pseudo ou Email"
-          placeholderTextColor="rgba(230,241,255,0.6)"
-          value={identifier}
-          onChangeText={setIdentifier}
-          autoCapitalize="none"
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="Mot de passe"
+            placeholderTextColor="rgba(230,241,255,0.6)"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Mot de passe"
-          placeholderTextColor="rgba(230,241,255,0.6)"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
+          <Pressable
+            style={({ pressed }) => [
+              styles.buttonContainer,
+              pressed && { opacity: 0.8, shadowRadius: 12 },
+            ]}
+            onPress={handleLogin}
+          >
+            <Text style={styles.buttonText}>Se connecter</Text>
+          </Pressable>
 
-        <Pressable
-          style={({ pressed }) => [
-            styles.buttonContainer,
-            pressed && { opacity: 0.8, shadowRadius: 12 }, // effet press
-          ]}
-          onPress={handleLogin}
-        >
-          <Text style={styles.buttonText}>Se connecter</Text>
-        </Pressable>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.link}>Pas de compte ? Inscrivez-vous ici</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <Text style={styles.link}>Pas de compte ? Inscrivez-vous ici</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </LinearGradient>
   );

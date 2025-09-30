@@ -11,7 +11,7 @@ export const signup = async (userData) => {
       body: JSON.stringify(userData),
     });
 
-    // Vérifie si la réponse est OK (status 200-299)
+    // Vérifie si la réponse est OK
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || 'Erreur lors de l’inscription');

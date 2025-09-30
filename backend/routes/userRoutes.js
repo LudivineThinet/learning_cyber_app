@@ -6,4 +6,5 @@ const router = express.Router();
 // Route d'inscription
 router.post('/signup', signupUser);
 
+
 export default router;
