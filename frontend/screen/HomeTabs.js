@@ -24,10 +24,10 @@ export default function HomeTabs() {
             case 'Profil':
               iconName = focused ? 'person-circle' : 'person-circle-outline';
               break;
-            case 'Exercice':
+            case 'Exercices':
               iconName = focused ? 'barbell' : 'barbell-outline';
               break;
-            case 'Lessons':
+            case 'Leçons':
               iconName = focused ? 'book' : 'book-outline';
               break;
             case 'News':
@@ -39,7 +39,7 @@ export default function HomeTabs() {
       })}
     >
       <Tab.Screen name="Profil" component={ProfileScreen} />
-      <Tab.Screen name="Exercice" component={ExerciceScreen} />
+      <Tab.Screen name="Exercices" component={ExerciceScreen} />
       <Tab.Screen name="Leçons" component={LessonsScreen} />
       <Tab.Screen name="News" component={NewsScreen} />
     </Tab.Navigator>

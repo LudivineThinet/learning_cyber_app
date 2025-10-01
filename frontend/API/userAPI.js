@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000'; // Remplace par ton IP locale si tu testes sur un vrai téléphone
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL; // Remplace par ton IP locale si tu testes sur un vrai téléphone
 
 // Fonction pour inscrire un utilisateur
 export const signup = async (userData) => {

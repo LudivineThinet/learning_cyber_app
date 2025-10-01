@@ -14,10 +14,9 @@ app.use(express.json());
 
 // Activer CORS pour Expo Web et React (8081 et 3000)
 app.use(cors({
-  origin: ['http://localhost:8081', 'http://localhost:3000']
+  origin: ['http://10.21.6.17:8081', 'http://10.21.6.17:3000']
 }));
 
-console.log('CORS activé pour http://localhost:8081 et http://localhost:3000');
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGO_CONNECTION)
