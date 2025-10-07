@@ -1,9 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
+  pseudo: { type: String, required: true },
   password: { type: String, required: true },
-}, { timestamps: true }); // ajoute les dates de création/modification
 
-export default mongoose.model('User', userSchema);
+  // champs supplémentaires pour le profil
+  firstName: { type: String },
+  lastName: { type: String },
+  birthDate: { type: Date },
+  avatar: { type: String },
+  level: { type: Number, default: 1 },
+  points: { type: Number, default: 0 },
+});
+
+const User = mongoose.model("User", userSchema);
+export default User;
